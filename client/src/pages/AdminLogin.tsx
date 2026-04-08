@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { ShieldAlert } from 'lucide-react';
+import { Shield } from 'lucide-react';
+import AuthCard from '../components/auth/AuthCard';
+import Input from '../components/ui/Input';
+import Button from '../components/ui/Button';
 
 interface AdminLoginProps {
   onLogin: () => void;
@@ -22,48 +25,43 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
       onLogin();
       navigate('/dashboard');
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Admin Login failed');
+      setError(err.response?.data?.message || 'Login failed');
     }
   };
 
+  const footer = (
+    <Link to="/login" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Return to User Login</Link>
+  );
+
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', background: 'linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%)' }}>
-      <div className="glass-card animate-fade" style={{ padding: '40px', width: '100%', maxWidth: '400px', borderTop: '4px solid #f59e0b' }}>
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}>
-          <ShieldAlert size={48} color="#f59e0b" />
-        </div>
-        <h1 style={{ marginBottom: '8px', textAlign: 'center' }}>Admin Portal</h1>
-        <p style={{ textAlign: 'center', color: 'var(--text-muted)', marginBottom: '24px', fontSize: '14px' }}>Restricted Access Area</p>
-        
-        {error && <p style={{ color: 'var(--danger)', marginBottom: '16px', fontSize: '14px' }}>{error}</p>}
-        
-        <form onSubmit={handleSubmit}>
-          <div style={{ marginBottom: '16px' }}>
-            <label style={{ display: 'block', marginBottom: '8px', color: 'var(--text-muted)' }}>Admin Email</label>
-            <input 
-              type="email" 
-              className="input" 
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
-              required 
-            />
-          </div>
-          <div style={{ marginBottom: '24px' }}>
-            <label style={{ display: 'block', marginBottom: '8px', color: 'var(--text-muted)' }}>Password</label>
-            <input 
-              type="password" 
-              className="input" 
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)} 
-              required 
-            />
-          </div>
-          <button type="submit" className="btn" style={{ width: '100%', justifyContent: 'center', background: '#f59e0b', color: 'white' }}>
-            Authenticate
-          </button>
-        </form>
-      </div>
-    </div>
+    <AuthCard 
+      title={<span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}><Shield color="var(--accent)" size={28} /> Admin Portal</span> as any} 
+      error={error} 
+      footer={footer}
+    >
+      <form onSubmit={handleSubmit}>
+        <Input 
+          label="Admin Email"
+          type="email" 
+          value={email} 
+          onChange={(e) => setEmail(e.target.value)} 
+          required 
+          placeholder="admin@flownote.app"
+        />
+        <Input 
+          label="Password"
+          type="password" 
+          value={password} 
+          onChange={(e) => setPassword(e.target.value)} 
+          required 
+          placeholder="••••••••"
+          wrapperStyle={{ marginBottom: '24px' }}
+        />
+        <Button type="submit" fullWidth style={{ background: 'var(--accent)', color: 'white' }}>
+          Secure Login
+        </Button>
+      </form>
+    </AuthCard>
   );
 };
 

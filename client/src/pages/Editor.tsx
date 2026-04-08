@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
-import ReactDOM from 'react-dom';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { io, Socket } from 'socket.io-client';
-import { ArrowLeft, Save, Share2, Users, Check, Copy } from 'lucide-react';
+import EditorHeader from '../components/editor/EditorHeader';
+import ShareModal from '../components/modals/ShareModal';
+import Input from '../components/ui/Input';
+import Textarea from '../components/ui/Textarea';
 
 const Editor: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -24,7 +26,6 @@ const Editor: React.FC = () => {
   
   const socketRef = useRef<Socket | null>(null);
   const token = localStorage.getItem('token');
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
 
   useEffect(() => {
     if (!id) {
@@ -50,7 +51,6 @@ const Editor: React.FC = () => {
     };
 
     fetchNote();
-
 
     socketRef.current = io('/', { path: '/socket.io' });
     socketRef.current.emit('join-note', id);
@@ -129,106 +129,57 @@ const Editor: React.FC = () => {
 
   return (
     <div className="container animate-fade" style={{ maxWidth: '900px' }}>
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', paddingTop: '10px' }}>
-        <button onClick={() => navigate('/dashboard')} className="btn" style={{ background: 'var(--glass)', color: 'white' }}>
-          <ArrowLeft size={18} /> Back
-        </button>
-        <div style={{ display: 'flex', gap: '12px' }}>
-          {isReadOnly && (
-            <div style={{ display: 'flex', alignItems: 'center', padding: '0 12px', color: 'var(--text-muted)', fontSize: '14px', background: 'var(--glass)', borderRadius: '8px' }}>
-              Read Only
-            </div>
-          )}
-          {isOwner && (
-            <button onClick={() => setShowShareModal(true)} className="btn" style={{ background: 'var(--glass)', color: 'white' }}>
-              <Share2 size={18} /> Share
-            </button>
-          )}
-          {!isReadOnly && (
-            <button onClick={handleUpdate} className="btn btn-primary" disabled={saving}>
-              {saving ? 'Saving...' : <><Save size={18} /> Save</>}
-            </button>
-          )}
-        </div>
-      </header>
+      <EditorHeader 
+        isReadOnly={isReadOnly} 
+        isOwner={isOwner} 
+        saving={saving} 
+        onShareClick={() => setShowShareModal(true)} 
+        onSaveClick={handleUpdate} 
+      />
 
       <div className="glass-card" style={{ padding: '40px', minHeight: '70vh' }}>
-        <input 
+        <Input 
           type="text" 
           value={title} 
           onChange={(e) => handleLocalChange(e, 'title')}
           placeholder="Untitled Note"
           readOnly={isReadOnly}
           style={{ 
-            width: '100%', 
             background: 'transparent', 
             border: 'none', 
             color: 'white', 
             fontSize: '2.5rem', 
             fontWeight: '800', 
-            outline: 'none', 
-            marginBottom: '24px' 
+            outline: 'none',
+            padding: 0
           }}
+          wrapperStyle={{ marginBottom: '24px' }}
         />
-        <textarea 
+        <Textarea 
           value={content} 
           onChange={(e) => handleLocalChange(e, 'content')}
           placeholder={isReadOnly ? "This note is empty." : "Start writing..."}
           readOnly={isReadOnly}
           style={{ 
-            width: '100%', 
             minHeight: '50vh', 
-            background: 'transparent', 
-            border: 'none', 
-            color: 'var(--text)', 
-            fontSize: '1.2rem', 
-            lineHeight: '1.6', 
-            outline: 'none', 
-            resize: 'none' 
           }}
         />
       </div>
 
-      {showShareModal && ReactDOM.createPortal(
-        <div className="modal-overlay" onClick={() => setShowShareModal(false)}>
-          <div className="glass-card modal-card-share" onClick={(e) => e.stopPropagation()} style={{ padding: '32px' }}>
-            <h2 style={{ marginBottom: '20px', fontWeight: '700', letterSpacing: '-0.02em' }}>Share Note</h2>
-            
-            <div style={{ marginBottom: '24px' }}>
-              <label style={{ display: 'block', marginBottom: '8px', color: 'var(--text-muted)', fontSize: '14px' }}>Public Access</label>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <input type="checkbox" checked={isPublic} onChange={togglePublic} style={{ width: '20px', height: '20px' }} />
-                <span>Anyone with link can view</span>
-              </div>
-              {isPublic && (
-                <div style={{ marginTop: '12px', display: 'flex', gap: '8px' }}>
-                  <input className="input" value={`${window.location.origin}/public/${id}`} readOnly />
-                  <button className="btn" style={{ background: 'var(--glass)', color: 'white', border: '1px solid var(--border)' }} onClick={copyPublicLink}>
-                    {copied ? <Check size={18} color="var(--accent)" /> : <Copy size={18} />}
-                  </button>
-                </div>
-              )}
-            </div>
-
-            <hr style={{ border: 'none', borderTop: '1px solid var(--border)', marginBottom: '24px' }} />
-
-            <div style={{ marginBottom: '24px' }}>
-              <label style={{ display: 'block', marginBottom: '8px', color: 'var(--text-muted)', fontSize: '14px' }}>Invite Collaborators</label>
-              <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
-                <input className="input" placeholder="User email" value={shareEmail} onChange={(e) => setShareEmail(e.target.value)} />
-                <select className="input" style={{ width: '120px' }} value={sharePermission} onChange={(e) => setSharePermission(e.target.value)}>
-                  <option value="VIEWER">Viewer</option>
-                  <option value="EDITOR">Editor</option>
-                </select>
-              </div>
-              <button onClick={shareNote} className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }}>Invite</button>
-            </div>
-
-            <button onClick={() => setShowShareModal(false)} className="btn" style={{ width: '100%', justifyContent: 'center', background: 'rgba(255,255,255,0.06)', color: 'var(--text-muted)', border: '1px solid rgba(255,255,255,0.08)' }}>Close</button>
-          </div>
-        </div>,
-        document.body
-      )}
+      <ShareModal 
+        isOpen={showShareModal}
+        isPublic={isPublic}
+        shareEmail={shareEmail}
+        sharePermission={sharePermission}
+        copied={copied}
+        noteId={id!}
+        onClose={() => setShowShareModal(false)}
+        onTogglePublic={togglePublic}
+        onCopyPublicLink={copyPublicLink}
+        onShareEmailChange={setShareEmail}
+        onSharePermissionChange={setSharePermission}
+        onShareSubmit={shareNote}
+      />
     </div>
   );
 };

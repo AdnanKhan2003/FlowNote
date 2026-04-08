@@ -1,16 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  --primary: #6366f1;
-  --primary-hover: #4f46e5;
-  --bg: #0f172a;
-  --card-bg: rgba(30, 41, 59, 0.7);
-  --text: #f8fafc;
-  --text-muted: #94a3b8;
-  --border: rgba(255, 255, 255, 0.1);
-  --glass: rgba(255, 255, 255, 0.03);
-  --accent: #10b981;
-  --danger: #ef4444;
+  --primary: #8fa082;       /* Sage Green - muted and desaturated */
+  --primary-hover: #7b8b6f; /* Deep Olive */
+  --bg: #161715;            /* Dark, rich obsidian / warm-black (less dusty) */
+  --card-bg: rgba(32, 33, 30, 0.8); /* Clean dark-gray with a hint of warm slate */
+  --text: #eae7dc;          /* Soft Beige/Cream */
+  --text-muted: #95948f;    /* Warm stone gray */
+  --border: rgba(234, 231, 220, 0.08);
+  --glass: rgba(234, 231, 220, 0.03);
+  --accent: #d8c3a5;        /* Beige / Ochre accent */
+  --danger: #b36a5e;        /* Muted dusty rose / terracotta red */
 }
 
 * {
