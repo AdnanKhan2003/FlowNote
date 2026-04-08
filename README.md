@@ -98,4 +98,4 @@ FlowNote is a production-quality full-stack web application that allows multiple
 - **Frontend**: Deploy to **Vercel** or **Netlify**. Ensure the build command is `npm run build` and output directory is `dist`.
 
 ---
-*Created with ❤️ by Antigravity*
+*Created with ❤️ by Adnan*
