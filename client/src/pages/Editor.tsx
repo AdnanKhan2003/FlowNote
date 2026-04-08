@@ -52,7 +52,8 @@ const Editor: React.FC = () => {
 
     fetchNote();
 
-    socketRef.current = io('/', { path: '/socket.io' });
+    const socketUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+    socketRef.current = io(socketUrl, { path: '/socket.io' });
     socketRef.current.emit('join-note', id);
 
     socketRef.current.on('note-updated', (data) => {

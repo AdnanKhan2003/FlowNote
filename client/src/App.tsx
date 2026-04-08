@@ -6,6 +6,10 @@ import Dashboard from './pages/Dashboard';
 import Editor from './pages/Editor';
 import PublicNote from './pages/PublicNote';
 import AdminLogin from './pages/AdminLogin';
+import axios from 'axios';
+
+// Dynamically route all API calls globally directly to the backend
+axios.defaults.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = React.useState(!!localStorage.getItem('token'));
