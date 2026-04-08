@@ -1,4 +1,4 @@
-import React, { SelectHTMLAttributes, ReactNode } from 'react';
+import React, { SelectHTMLAttributes, ReactNode } from "react";
 
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
@@ -6,12 +6,30 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   children: ReactNode;
 }
 
-const Select: React.FC<SelectProps> = ({ label, style, className, wrapperStyle, children, ...props }) => {
+const Select: React.FC<SelectProps> = ({
+  label,
+  style,
+  className,
+  wrapperStyle,
+  children,
+  ...props
+}) => {
   return (
-    <div style={{ marginBottom: '16px', width: '100%', ...wrapperStyle }}>
-      {label && <label style={{ display: 'block', marginBottom: '8px', color: 'var(--text-muted)', fontSize: '14px' }}>{label}</label>}
-      <select 
-        className={`input ${className || ''}`}
+    <div style={{ marginBottom: "16px", width: "100%", ...wrapperStyle }}>
+      {label && (
+        <label
+          style={{
+            display: "block",
+            marginBottom: "8px",
+            color: "var(--text-muted)",
+            fontSize: "14px",
+          }}
+        >
+          {label}
+        </label>
+      )}
+      <select
+        className={`input ${className || ""}`}
         style={{ ...style }}
         {...props}
       >

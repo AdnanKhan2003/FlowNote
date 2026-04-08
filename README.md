@@ -22,17 +22,16 @@ FlowNote is a production-quality full-stack web application that allows multiple
 
 ```text
 ├── client/          # Frontend React application
-│   ├── src/
-│   │   ├── components/
-│   │   ├── hooks/
-│   │   ├── pages/
-│   │   └── styles/
+│   ├── src/         # UI components, pages, and logic
 ├── server/          # Backend Express application
 │   ├── src/
-│   │   ├── db/      # Schema and Connection
-│   │   ├── middleware/
-│   │   ├── routes/
-│   │   └── socket/
+│   │   ├── constants/   # App constants and env config
+│   │   ├── controllers/ # Request handlers
+│   │   ├── db/          # Schema and Connection
+│   │   ├── lib/         # Utilities (logger, asyncHandler, etc.)
+│   │   ├── middlewares/ # Express middlewares
+│   │   ├── routes/      # Registering routes
+│   │   └── types/       # TypeScript definitions
 ```
 
 ## ⚙️ Setup & Installation
