@@ -20,43 +20,23 @@ const EditorHeader: React.FC<EditorHeaderProps> = ({
   const navigate = useNavigate();
 
   return (
-    <header
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        marginBottom: "24px",
-        paddingTop: "10px",
-      }}
-    >
+    <header className="flex flex-wrap justify-between items-center gap-4 mb-6 pt-3">
       <button
         onClick={() => navigate("/dashboard")}
-        className="btn"
-        style={{ background: "var(--glass)", color: "white" }}
+        className="btn bg-glass text-white border border-border hover:border-text-muted/30 whitespace-nowrap"
       >
         <ArrowLeft size={18} /> Back
       </button>
-      <div style={{ display: "flex", gap: "12px" }}>
+      <div className="flex flex-wrap gap-2 sm:gap-3 items-center">
         {isReadOnly && (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              padding: "0 12px",
-              color: "var(--text-muted)",
-              fontSize: "14px",
-              background: "var(--glass)",
-              borderRadius: "8px",
-            }}
-          >
+          <div className="flex items-center px-3 py-2 text-text-muted text-sm bg-glass rounded-lg border border-border whitespace-nowrap">
             Read Only
           </div>
         )}
         {isOwner && (
           <button
             onClick={onShareClick}
-            className="btn"
-            style={{ background: "var(--glass)", color: "white" }}
+            className="btn bg-glass text-white border border-border hover:border-text-muted/30 whitespace-nowrap"
           >
             <Share2 size={18} /> Share
           </button>
@@ -64,7 +44,7 @@ const EditorHeader: React.FC<EditorHeaderProps> = ({
         {!isReadOnly && (
           <button
             onClick={onSaveClick}
-            className="btn btn-primary"
+            className="btn btn-primary whitespace-nowrap"
             disabled={saving}
           >
             {saving ? (

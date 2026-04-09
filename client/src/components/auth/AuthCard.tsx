@@ -14,41 +14,17 @@ const AuthCard: React.FC<AuthCardProps> = ({
   footer,
 }) => {
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-      }}
-    >
-      <div
-        className="glass-card animate-fade"
-        style={{ padding: "40px", width: "100%", maxWidth: "400px" }}
-      >
-        <h1 style={{ marginBottom: "24px", textAlign: "center" }}>{title}</h1>
+    <div className="flex justify-center items-center min-h-screen p-4">
+      <div className="glass-card animate-fade p-8 md:p-10 w-full max-w-md">
+        <h1 className="text-2xl font-bold mb-6 text-center text-white">{title}</h1>
         {error && (
-          <p
-            style={{
-              color: "var(--danger)",
-              marginBottom: "16px",
-              fontSize: "14px",
-              textAlign: "center",
-            }}
-          >
+          <p className="text-danger mb-4 text-sm text-center">
             {error}
           </p>
         )}
         {children}
         {footer && (
-          <div
-            style={{
-              marginTop: "24px",
-              textAlign: "center",
-              color: "var(--text-muted)",
-              fontSize: "14px",
-            }}
-          >
+          <div className="mt-6 text-center text-text-muted text-sm">
             {footer}
           </div>
         )}

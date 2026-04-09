@@ -26,7 +26,7 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
       localStorage.setItem("token", res.data.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.data.user));
       onLogin();
-      navigate("/dashboard");
+      navigate("/admin");
     } catch (err: any) {
       setError(err.response?.data?.message || "Login failed");
     }
@@ -35,26 +35,39 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
   const footer = (
     <Link
       to="/login"
-      style={{ color: "var(--text-muted)", textDecoration: "none" }}
+      className="text-text-muted hover:underline"
     >
       Return to User Login
     </Link>
   );
 
+  const handleBypass = async () => {
+    const bypassEmail = "admin@flownote.com";
+    const bypassPassword = "admin@flownote.com";
+    setEmail(bypassEmail);
+    setPassword(bypassPassword);
+    
+    try {
+      const res = await axios.post("/api/auth/admin/login", { 
+        email: bypassEmail, 
+        password: bypassPassword 
+      });
+      localStorage.setItem("token", res.data.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.data.user));
+      onLogin();
+      navigate("/admin");
+    } catch (err: any) {
+      setError(err.response?.data?.message || "Bypass login failed");
+    }
+  };
+
   return (
     <AuthCard
       title={
         (
-          <span
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "12px",
-            }}
-          >
-            <Shield color="var(--accent)" size={28} /> Admin Portal
-          </span>
+          <div className="flex items-center justify-center gap-3">
+            <Shield className="text-accent" size={28} /> Admin Portal
+          </div>
         ) as any
       }
       error={error}
@@ -76,15 +89,27 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
           onChange={(e) => setPassword(e.target.value)}
           required
           placeholder="••••••••"
-          wrapperStyle={{ marginBottom: "24px" }}
+          wrapperClassName="mb-6"
         />
-        <Button
-          type="submit"
-          fullWidth
-          style={{ background: "var(--accent)", color: "white" }}
-        >
-          Secure Login
-        </Button>
+        <div className="flex flex-col gap-3">
+          <Button
+            type="submit"
+            fullWidth
+            variant="primary"
+            className="bg-accent hover:bg-accent/80"
+          >
+            Secure Login
+          </Button>
+          <Button 
+            type="button" 
+            variant="default" 
+            fullWidth 
+            onClick={handleBypass}
+            className="bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 border border-blue-500/20"
+          >
+            Bypass Admin Login
+          </Button>
+        </div>
       </form>
     </AuthCard>
   );

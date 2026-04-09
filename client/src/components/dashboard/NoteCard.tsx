@@ -16,47 +16,29 @@ const NoteCard: React.FC<NoteCardProps> = ({
 }) => {
   return (
     <div
-      className="glass-card note-card"
-      style={{ padding: "20px", cursor: "pointer" }}
+      className="glass-card note-card p-5 cursor-pointer flex flex-col h-full"
       onClick={onClick}
     >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginBottom: "12px",
-        }}
-      >
-        <FileText size={24} color="var(--primary)" />
-        <div style={{ display: "flex", gap: "8px" }}>
-          {note.isPublic && <Share2 size={16} color="var(--accent)" />}
+      <div className="flex justify-between mb-3">
+        <FileText size={24} className="text-primary" />
+        <div className="flex gap-2 items-center">
+          {note.isPublic && <Share2 size={16} className="text-accent" />}
           {String(note.ownerId) === String(userId) && (
-            <Trash2 size={16} color="var(--danger)" onClick={onDeleteClick} />
+            <Trash2 
+               size={16} 
+               className="text-danger hover:text-red-400 transition-colors" 
+               onClick={onDeleteClick} 
+            />
           )}
         </div>
       </div>
-      <h3 style={{ marginBottom: "8px", fontSize: "18px" }}>
+      <h3 className="mb-2 text-lg md:text-xl font-bold text-white tracking-tight">
         {note.title || "Untitled Note"}
       </h3>
-      <p
-        style={{
-          color: "var(--text-muted)",
-          fontSize: "14px",
-          display: "-webkit-box",
-          WebkitLineClamp: 3,
-          WebkitBoxOrient: "vertical",
-          overflow: "hidden",
-        }}
-      >
+      <p className="text-text-muted text-sm md:text-base line-clamp-3 flex-1">
         {note.content || "No content..."}
       </p>
-      <div
-        style={{
-          marginTop: "16px",
-          fontSize: "12px",
-          color: "var(--text-muted)",
-        }}
-      >
+      <div className="mt-4 text-[10px] md:text-xs text-text-muted">
         Last modified: {new Date(note.updatedAt).toLocaleDateString()}
       </div>
     </div>

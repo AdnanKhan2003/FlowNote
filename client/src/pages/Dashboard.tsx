@@ -91,51 +91,34 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
   );
 
   if (loading)
-    return <div style={{ color: "white", padding: "20px" }}>Loading...</div>;
+    return <div className="text-white p-5">Loading...</div>;
 
   return (
     <div className="container animate-fade">
       <Header
         userEmail={user.email}
+        userRole={user.role}
         onCreateNote={handleCreateNote}
         onLogout={logout}
       />
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 300px",
-          gap: "32px",
-        }}
-      >
-        <main>
-          <div style={{ position: "relative", marginBottom: "24px" }}>
-            <Search
-              style={{
-                position: "absolute",
-                left: "12px",
-                top: "22px",
-                transform: "translateY(-50%)",
-                color: "var(--text-muted)",
-              }}
-              size={18}
-            />
-            <Input
-              type="text"
-              placeholder="Search your notes..."
-              style={{ paddingLeft: "40px" }}
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
+      <div className="relative mb-8">
+        <Search
+          className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted transition-colors"
+          size={18}
+        />
+        <Input
+          type="text"
+          placeholder="Search your notes..."
+          className="pl-10 h-11"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-              gap: "20px",
-            }}
-          >
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_300px] gap-8">
+        <main>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
             {filteredNotes.map((note) => (
               <NoteCard
                 key={note.id}

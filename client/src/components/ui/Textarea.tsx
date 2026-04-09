@@ -1,44 +1,29 @@
 import React, { TextareaHTMLAttributes } from "react";
+import { cn } from "../../lib/utils";
 
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
-  wrapperStyle?: React.CSSProperties;
+  wrapperClassName?: string;
 }
 
 const Textarea: React.FC<TextareaProps> = ({
   label,
-  style,
   className,
-  wrapperStyle,
+  wrapperClassName,
   ...props
 }) => {
   return (
-    <div style={{ marginBottom: "16px", width: "100%", ...wrapperStyle }}>
+    <div className={cn("mb-4 w-full", wrapperClassName)}>
       {label && (
-        <label
-          style={{
-            display: "block",
-            marginBottom: "8px",
-            color: "var(--text-muted)",
-            fontSize: "14px",
-          }}
-        >
+        <label className="block mb-2 text-text-muted text-sm font-medium">
           {label}
         </label>
       )}
       <textarea
-        className={className || ""}
-        style={{
-          width: "100%",
-          background: "transparent",
-          border: "none",
-          color: "var(--text)",
-          fontSize: "1.2rem",
-          lineHeight: "1.6",
-          outline: "none",
-          resize: "none",
-          ...style,
-        }}
+        className={cn(
+          "w-full bg-transparent border-none text-text text-[1.2rem] leading-relaxed outline-none resize-none px-0",
+          className
+        )}
         {...props}
       />
     </div>

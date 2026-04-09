@@ -26,14 +26,12 @@ const Register: React.FC = () => {
   };
 
   const footer = (
-    <>
-      <Link
-        to="/login"
-        style={{ color: "var(--primary)", textDecoration: "none" }}
-      >
-        Already have an account? Sign In
-      </Link>
-    </>
+    <Link
+      to="/login"
+      className="text-primary hover:underline"
+    >
+      Already have an account? Sign In
+    </Link>
   );
 
   return (
@@ -54,7 +52,7 @@ const Register: React.FC = () => {
           onChange={(e) => setPassword(e.target.value)}
           required
           placeholder="••••••••"
-          wrapperStyle={{ marginBottom: "24px" }}
+          wrapperClassName="mb-6"
         />
         <Button type="submit" variant="primary" fullWidth>
           Create Account

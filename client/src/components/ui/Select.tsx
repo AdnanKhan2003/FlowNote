@@ -1,36 +1,28 @@
 import React, { SelectHTMLAttributes, ReactNode } from "react";
+import { cn } from "../../lib/utils";
 
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
-  wrapperStyle?: React.CSSProperties;
+  wrapperClassName?: string;
   children: ReactNode;
 }
 
 const Select: React.FC<SelectProps> = ({
   label,
-  style,
   className,
-  wrapperStyle,
+  wrapperClassName,
   children,
   ...props
 }) => {
   return (
-    <div style={{ marginBottom: "16px", width: "100%", ...wrapperStyle }}>
+    <div className={cn("mb-4 w-full", wrapperClassName)}>
       {label && (
-        <label
-          style={{
-            display: "block",
-            marginBottom: "8px",
-            color: "var(--text-muted)",
-            fontSize: "14px",
-          }}
-        >
+        <label className="block mb-2 text-text-muted text-sm font-medium">
           {label}
         </label>
       )}
       <select
-        className={`input ${className || ""}`}
-        style={{ ...style }}
+        className={cn("input", className)}
         {...props}
       >
         {children}

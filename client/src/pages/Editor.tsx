@@ -142,10 +142,10 @@ const Editor: React.FC = () => {
   };
 
   if (!note)
-    return <div style={{ color: "white", padding: "20px" }}>Loading...</div>;
+    return <div className="text-white p-5">Loading...</div>;
 
   return (
-    <div className="container animate-fade" style={{ maxWidth: "900px" }}>
+    <div className="container animate-fade">
       <EditorHeader
         isReadOnly={isReadOnly}
         isOwner={isOwner}
@@ -155,8 +155,7 @@ const Editor: React.FC = () => {
       />
 
       <div
-        className="glass-card"
-        style={{ padding: "40px", minHeight: "70vh" }}
+        className="glass-card p-10 min-h-[70vh]"
       >
         <Input
           type="text"
@@ -164,25 +163,15 @@ const Editor: React.FC = () => {
           onChange={(e) => handleLocalChange(e, "title")}
           placeholder="Untitled Note"
           readOnly={isReadOnly}
-          style={{
-            background: "transparent",
-            border: "none",
-            color: "white",
-            fontSize: "2.5rem",
-            fontWeight: "800",
-            outline: "none",
-            padding: 0,
-          }}
-          wrapperStyle={{ marginBottom: "24px" }}
+          className="bg-transparent border-none text-white text-3xl md:text-4xl lg:text-5xl font-black outline-none p-0 focus:border-none ring-0 shadow-none tracking-tight"
+          wrapperClassName="mb-6"
         />
         <Textarea
           value={content}
           onChange={(e) => handleLocalChange(e, "content")}
           placeholder={isReadOnly ? "This note is empty." : "Start writing..."}
           readOnly={isReadOnly}
-          style={{
-            minHeight: "50vh",
-          }}
+          className="min-h-[50vh]"
         />
       </div>
 

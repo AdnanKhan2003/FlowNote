@@ -10,6 +10,8 @@ FlowNote is a production-quality full-stack web application that allows multiple
 - **Activity tracking**: Track user actions (create, update, share, delete).
 - **Search**: Fast note search by title and content.
 - **Public Sharing**: Create read-only public links for non-authenticated users.
+- **Admin System Intel**: Dedicated high-fidelity console for global user and activity monitoring.
+- **Security UI**: Integrated "Show/Hide" password toggles across all forms.
 - **Premium Design**: Dark-mode primary UI with glassmorphism and smooth animations.
 
 ## 🛠 Tech Stack
@@ -48,6 +50,13 @@ FlowNote is a production-quality full-stack web application that allows multiple
    PORT=5000
    DATABASE_URL=postgresql://user:password@localhost:5432/flownote
    JWT_SECRET=your_secret_key
+   ADMIN_EMAIL=admin@example.com
+   ADMIN_PASSWORD=your_secure_password
+   FRONTEND_URL=http://localhost:3000
+   ```
+5. Seed the Admin account:
+   ```bash
+   npm run db:seed
    ```
 4. Run migrations (Drizzle):
    ```bash

@@ -78,7 +78,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
               <Input
                 value={`${window.location.origin}/public/${noteId}`}
                 readOnly
-                wrapperStyle={{ marginBottom: 0 }}
+                wrapperClassName="mb-0"
               />
               <Button variant="ghost" onClick={onCopyPublicLink}>
                 {copied ? (
@@ -113,13 +113,13 @@ const ShareModal: React.FC<ShareModalProps> = ({
               placeholder="User email"
               value={shareEmail}
               onChange={(e) => onShareEmailChange(e.target.value)}
-              wrapperStyle={{ marginBottom: 0 }}
+              wrapperClassName="mb-0"
             />
             <Select
-              style={{ width: "120px" }}
+              className="w-[120px]"
               value={sharePermission}
               onChange={(e) => onSharePermissionChange(e.target.value)}
-              wrapperStyle={{ width: "auto", marginBottom: 0 }}
+              wrapperClassName="w-auto mb-0"
             >
               <option value="VIEWER">Viewer</option>
               <option value="EDITOR">Editor</option>

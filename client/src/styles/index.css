@@ -1,129 +1,119 @@
+@import "tailwindcss";
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  --primary: #8fa082;       /* Sage Green - muted and desaturated */
-  --primary-hover: #7b8b6f; /* Deep Olive */
-  --bg: #161715;            /* Dark, rich obsidian / warm-black (less dusty) */
-  --card-bg: rgba(32, 33, 30, 0.8); /* Clean dark-gray with a hint of warm slate */
-  --text: #eae7dc;          /* Soft Beige/Cream */
-  --text-muted: #95948f;    /* Warm stone gray */
+  --primary: #8fa082;
+  --primary-hover: #7b8b6f;
+  --bg: #161715;
+  --card-bg: rgba(32, 33, 30, 0.8);
+  --text: #eae7dc;
+  --text-muted: #95948f;
   --border: rgba(234, 231, 220, 0.08);
   --glass: rgba(234, 231, 220, 0.03);
-  --accent: #d8c3a5;        /* Beige / Ochre accent */
-  --danger: #b36a5e;        /* Muted dusty rose / terracotta red */
+  --accent: #d8c3a5;
+  --danger: #b36a5e;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+@theme {
+  --color-primary: #8fa082;
+  --color-primary-hover: #7b8b6f;
+  --color-bg: #161715;
+  --color-card-bg: rgba(32, 33, 30, 0.8);
+  --color-text: #eae7dc;
+  --color-text-muted: #95948f;
+  --color-accent: #d8c3a5;
+  --color-danger: #b36a5e;
+  --color-border: rgba(234, 231, 220, 0.08);
+  --color-glass: rgba(234, 231, 220, 0.03);
+  
+  --font-sans: "Inter", sans-serif;
+  
+  --background-image-gradient-primary: linear-gradient(to right, #8fa082, #d8c3a5);
 }
 
-body {
-  background-color: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  overflow-x: hidden;
+@layer base {
+  * {
+    @apply m-0 p-0 box-border;
+    border-color: var(--border);
+  }
+
+  body {
+    @apply bg-bg text-text min-h-screen overflow-x-hidden text-base;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  input, button, textarea, select {
+    font-family: inherit;
+  }
+
+  h1 { @apply text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight; }
+  h2 { @apply text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight; }
+  h3 { @apply text-xl md:text-2xl font-bold; }
+  p { @apply text-sm md:text-base leading-relaxed; }
+
+  ::selection {
+    background-color: var(--primary);
+    color: var(--bg);
+  }
 }
 
-.glass-card {
-  background: var(--card-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+@layer components {
+  .glass-card {
+    @apply backdrop-blur-xl border border-border rounded-2xl shadow-2xl;
+    background: var(--card-bg);
+  }
+
+  .btn {
+    @apply px-5 py-2.5 rounded-lg font-semibold cursor-pointer transition-all duration-200 inline-flex items-center gap-2;
+  }
+
+  .btn:hover {
+    @apply -translate-y-px brightness-110;
+  }
+
+  .btn:active {
+    @apply translate-y-0 brightness-95;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-primary-hover;
+  }
+
+  .input {
+    @apply w-full p-3 bg-glass border border-border rounded-lg text-white outline-none transition-colors duration-200 focus:border-primary;
+  }
+
+  .container {
+    @apply max-w-[1080px] mx-auto px-5;
+  }
+
+  .modal-overlay {
+    @apply fixed inset-0 bg-black/75 backdrop-blur-2xl flex justify-center items-center z-9999 p-5;
+    animation: overlayFadeIn 0.25s ease-out forwards;
+  }
+
+  .modal-card {
+    @apply max-w-[440px] w-full;
+    animation: modalSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .modal-card-share {
+    @apply max-w-[500px] w-full;
+    animation: modalSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .note-card {
+    @apply cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(0,0,0,0.5)];
+  }
+
+  .animate-fade {
+    animation: fadeIn 0.4s ease-out forwards;
+  }
 }
 
-.btn {
-  padding: 10px 20px;
-  border-radius: 8px;
-  border: none;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.btn:hover {
-  transform: translateY(-1px);
-  filter: brightness(1.1);
-}
-
-.btn:active {
-  transform: translateY(0);
-  filter: brightness(0.95);
-}
-
-.btn-primary {
-  background-color: var(--primary);
-  color: white;
-}
-
-.btn-primary:hover {
-  background-color: var(--primary-hover);
-  transform: translateY(-1px);
-}
-
-.input {
-  width: 100%;
-  padding: 12px;
-  background: var(--glass);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: white;
-  outline: none;
-  transition: border-color 0.2s;
-}
-
-.input:focus {
-  border-color: var(--primary);
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-/* =====================
-   Modal Overlay
-   ===================== */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  padding: 20px;
-  animation: overlayFadeIn 0.25s ease-out forwards;
-}
-
-.modal-card {
-  animation: modalSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  max-width: 440px;
-  width: 100%;
-}
-
-.modal-card-share {
-  animation: modalSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  max-width: 500px;
-  width: 100%;
-}
-
-/* =====================
-   Animations
-   ===================== */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
@@ -145,17 +135,3 @@ body {
   }
 }
 
-.animate-fade {
-  animation: fadeIn 0.4s ease-out forwards;
-}
-
-/* Note card hover */
-.note-card {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  cursor: pointer;
-}
-
-.note-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
-}

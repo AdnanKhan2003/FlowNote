@@ -21,16 +21,12 @@ const PublicNote: React.FC = () => {
 
   if (error)
     return (
-      <div style={{ padding: "100px", textAlign: "center", color: "white" }}>
-        <h1>Access Denied</h1>
-        <p style={{ color: "var(--text-muted)" }}>{error}</p>
+      <div className="container py-24 text-center text-white">
+        <h1 className="text-4xl font-bold mb-4">Access Denied</h1>
+        <p className="text-text-muted mb-8">{error}</p>
         <Link
           to="/login"
-          style={{
-            color: "var(--primary)",
-            marginTop: "20px",
-            display: "block",
-          }}
+          className="text-primary hover:underline"
         >
           Go to Login
         </Link>
@@ -38,40 +34,22 @@ const PublicNote: React.FC = () => {
     );
 
   if (!note)
-    return <div style={{ color: "white", padding: "20px" }}>Loading...</div>;
+    return <div className="text-white p-5">Loading...</div>;
 
   return (
-    <div
-      className="container animate-fade"
-      style={{ maxWidth: "800px", paddingTop: "60px" }}
-    >
-      <div className="glass-card" style={{ padding: "60px" }}>
-        <h1 style={{ marginBottom: "32px", fontSize: "3rem" }}>
+    <div className="container animate-fade py-10 md:py-16">
+      <div className="glass-card p-10 md:p-16">
+        <h1 className="text-4xl md:text-5xl font-extrabold mb-8 text-white leading-tight">
           {note.title || "Untitled Note"}
         </h1>
-        <div
-          style={{
-            color: "var(--text)",
-            fontSize: "1.2rem",
-            lineHeight: "1.8",
-            whiteSpace: "pre-wrap",
-          }}
-        >
+        <div className="text-text text-lg md:text-xl leading-relaxed whitespace-pre-wrap">
           {note.content}
         </div>
-        <div
-          style={{
-            marginTop: "40px",
-            paddingTop: "20px",
-            borderTop: "1px solid var(--border)",
-            fontSize: "14px",
-            color: "var(--text-muted)",
-          }}
-        >
+        <div className="mt-10 pt-5 border-t border-border text-sm text-text-muted">
           Shared via FlowNote • READ ONLY
         </div>
       </div>
-      <div style={{ textAlign: "center", marginTop: "40px" }}>
+      <div className="text-center mt-10">
         <Link to="/register" className="btn btn-primary">
           Create your own notes
         </Link>
