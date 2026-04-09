@@ -10,6 +10,8 @@ interface ShareModalProps {
   isPublic: boolean;
   shareEmail: string;
   sharePermission: string;
+  shareStatus: "idle" | "loading" | "success" | "error";
+  shareMessage: string;
   copied: boolean;
   noteId: string;
   onClose: () => void;
@@ -25,6 +27,8 @@ const ShareModal: React.FC<ShareModalProps> = ({
   isPublic,
   shareEmail,
   sharePermission,
+  shareStatus,
+  shareMessage,
   copied,
   noteId,
   onClose,
@@ -78,7 +82,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
               <Input
                 value={`${window.location.origin}/public/${noteId}`}
                 readOnly
-                wrapperClassName="mb-0"
+                wrapperClassName="mb-0 flex-1"
               />
               <Button variant="ghost" onClick={onCopyPublicLink}>
                 {copied ? (
@@ -113,7 +117,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
               placeholder="User email"
               value={shareEmail}
               onChange={(e) => onShareEmailChange(e.target.value)}
-              wrapperClassName="mb-0"
+              wrapperClassName="mb-0 flex-1"
             />
             <Select
               className="w-[120px]"
@@ -125,12 +129,33 @@ const ShareModal: React.FC<ShareModalProps> = ({
               <option value="EDITOR">Editor</option>
             </Select>
           </div>
-          <Button variant="primary" fullWidth onClick={onShareSubmit}>
-            Invite
+
+          {shareStatus !== "idle" && (
+            <div 
+              style={{ 
+                fontSize: "13px", 
+                marginBottom: "12px", 
+                fontWeight: "600",
+                color: shareStatus === "success" ? "var(--primary)" : 
+                       shareStatus === "error" ? "var(--danger)" : 
+                       "var(--text-muted)"
+              }}
+            >
+              {shareMessage} {shareStatus === "loading" && "..."}
+            </div>
+          )}
+
+          <Button 
+            variant="primary" 
+            fullWidth 
+            onClick={onShareSubmit}
+            disabled={shareStatus === "loading"}
+          >
+            {shareStatus === "loading" ? "Inviting..." : "Invite"}
           </Button>
         </div>
 
-        <Button fullWidth onClick={onClose}>
+        <Button fullWidth onClick={onClose} variant="default">
           Close
         </Button>
       </div>

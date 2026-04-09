@@ -20,6 +20,8 @@ const Editor: React.FC = () => {
   const [sharePermission, setSharePermission] = useState("VIEWER");
   const [copied, setCopied] = useState(false);
   const [permission, setPermission] = useState("VIEWER");
+  const [shareStatus, setShareStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [shareMessage, setShareMessage] = useState("");
 
   const isReadOnly = permission === "VIEWER";
   const isOwner = permission === "OWNER";
@@ -101,6 +103,8 @@ const Editor: React.FC = () => {
 
   const shareNote = async () => {
     if (!id) return;
+    setShareStatus("loading");
+    setShareMessage("");
     try {
       await axios.post(
         `/api/notes/${id}/collaborators`,
@@ -109,10 +113,12 @@ const Editor: React.FC = () => {
           headers: { Authorization: `Bearer ${token}` },
         },
       );
-      alert("Shared successfully");
+      setShareStatus("success");
+      setShareMessage("Invitation sent successfully!");
       setShareEmail("");
-    } catch (err) {
-      alert("Failed to share");
+    } catch (err: any) {
+      setShareStatus("error");
+      setShareMessage(err.response?.data?.message || "Failed to share note");
     }
   };
 
@@ -180,12 +186,21 @@ const Editor: React.FC = () => {
         isPublic={isPublic}
         shareEmail={shareEmail}
         sharePermission={sharePermission}
+        shareStatus={shareStatus}
+        shareMessage={shareMessage}
         copied={copied}
         noteId={id!}
-        onClose={() => setShowShareModal(false)}
+        onClose={() => {
+          setShowShareModal(false);
+          setShareStatus("idle");
+          setShareMessage("");
+        }}
         onTogglePublic={togglePublic}
         onCopyPublicLink={copyPublicLink}
-        onShareEmailChange={setShareEmail}
+        onShareEmailChange={(val) => {
+          setShareEmail(val);
+          if (shareStatus !== "idle") setShareStatus("idle");
+        }}
         onSharePermissionChange={setSharePermission}
         onShareSubmit={shareNote}
       />
