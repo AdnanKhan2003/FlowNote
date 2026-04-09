@@ -44,10 +44,10 @@ const AdminDashboard = () => {
 
     try {
       const [usersRes, activityRes] = await Promise.all([
-        axios.get("http://localhost:5000/api/admin/users", {
+        axios.get("/api/admin/users", {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        axios.get("http://localhost:5000/api/admin/activity", {
+        axios.get("/api/admin/activity", {
           headers: { Authorization: `Bearer ${token}` },
         }),
       ]);
